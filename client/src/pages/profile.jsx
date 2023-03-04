@@ -5,29 +5,35 @@ import {useParams} from "react-router";
 import {doc, getDoc, getFirestore} from "firebase/firestore";
 import initApp from "../hooks/initApp";
 import {useCookies} from "react-cookie";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
+import Loading from '../components/loading/loading'
 
-const Profile = () => {
+const Profile = (props) => {
     const app = initApp()
-    const login = useParams().login
+    const [cookie] = useCookies()
+    let login = useParams().login
+    if (!login) {
+        login = cookie.login
+    }
     const [surname, setSurname] = useState('')
     const [lastname, setLastname] = useState('')
-    const [countFriends, setCountFriends] = useState(0)
-    const [cookie] = useCookies()
+    const [countFriends, setCountFriends] = useState()
+    
     const nav = useNavigate()
+    const [isVisible, setIsVisible] = useState(true)
 
     useEffect(() => {
-        console.log(cookie);
         const getData = async () => {
             const db = getFirestore(app)
             const data = await getDoc(doc(db, 'users', login))
+            setIsVisible(false)
             setSurname(data.data().surname)
             setLastname(data.data().lastname)
             setCountFriends(data.data().countFriends)
         }
-        // if (!cookie.login) {
-        //     nav('/login')
-        // }
+        if (!cookie.login) {
+            nav('/login')
+        }
         getData()
     }, [])
 
@@ -39,14 +45,24 @@ const Profile = () => {
                 </div>
                 <div className={'info'}>
                     <p>@{login}</p>
-                    <h2>{surname} {lastname}</h2>
-                    <Mybutton text={'Добавить в друзья'} />
-                    <Mybutton text={'Написать соообщение'} />
+                    {
+                        isVisible
+                            ? <Loading />
+                            : <h2>{surname} {lastname}</h2>
+                    }
+                    {
+                        cookie.login !== login
+                            ? <><Mybutton text={'Добавить в друзья'} />
+                                <Mybutton text={'Написать соообщение'} /></>
+                            : <><Mybutton text={'Опубликовать фото'} />
+                                <Mybutton text={'Настройка профиля'} /></>
+                    }
+
                     <div className={'people'}>
-                        <div className={'friends'}>
+                        <Link to={`/friends/${login}`}><div className={'friends'}>
                             <p>{countFriends}</p>
                             <p>Друзей</p>
-                        </div>
+                        </div></Link>
                     </div>
 
                 </div>

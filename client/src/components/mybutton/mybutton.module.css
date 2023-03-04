@@ -9,6 +9,7 @@
     margin-bottom: 5px;
     padding-left: 10px;
     padding-right: 10px;
+    border: 0;
 }
 .button:hover{
     background-color: #3b3b3b;

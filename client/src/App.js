@@ -6,29 +6,29 @@ import Menu from "./components/menu/menu";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import {useCookies} from "react-cookie";
+import Friends from './pages/friends';
 
 const App = () => {
-    const {cookie} = useCookies()
-
     return (
         <BrowserRouter>
-        <div className={'container-fluid main'}>
-            <div className={'row'}>
-                <div className={'menu col-lg-2'}>
-                    <Menu />
-                </div>
-                <div className={'col-lg-10'}>
+            <div className={'container-fluid main'} style={{minHeight: '100vh'}}>
+                <div className={'row'} style={{minHeight: '100vh'}}>
+                    <div className={'menu col-lg-2'} style={{minHeight: '100vh'}}>
+                        <Menu />
+                    </div>
+                    <div className={'col-lg-10 content'}>
 
-                        <Routes>
-                            <Route path={'/'} element={<Profile />} />
-                            <Route path={'/login/'} element={<Login />} />
-                            <Route path={'/register'} element={<Register />} />
-                            <Route path={'/profile/:login'} element={<Profile />} />
-                        </Routes>
+                            <Routes>
+                                <Route path={'/'} element={<Profile />} />
+                                <Route path={'/login/'} element={<Login />} />
+                                <Route path={'/register'} element={<Register />} />
+                                <Route path={'/profile/:login'} element={<Profile />} />
+                                <Route path={'/friends/:login'} element={<Friends />} />
+                            </Routes>
 
+                    </div>
                 </div>
             </div>
-        </div>
         </BrowserRouter>
     );
 };

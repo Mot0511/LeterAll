@@ -10,11 +10,9 @@ const Menu = () => {
     const [cookie, setCookie, removeCookie] = useCookies()
     const nav = useNavigate()
     useEffect(() => {
-        console.log(cookie)
+
     }, [])
     const exit = () => {
-        
-        console.log(cookie);
         const auth = getAuth()
         signOut(auth)
             .then(() => {
@@ -30,22 +28,22 @@ const Menu = () => {
         <div className={cl.menu}>
             {
                 cookie.login
-                    ? <a href={`/profile/${cookie.login}`}><Mybutton text={'Профиль'} /></a>
-                    : <a href={`/profile/login`}><Mybutton text={'Профиль'} /></a>
+                    ? <Link to={`/profile/${cookie.login}`}><Mybutton text={'Профиль'} /></Link>
+                    : <Link to={`/login`}><Mybutton text={'Профиль'} /></Link>
             }
 
             <Mybutton text={'Сообщения'} />
-            <Mybutton text={'Друзья'} />
-
+            <Link to={`/friends/${cookie.login}`}><Mybutton text={'Друзья'} /></Link>
+            <div className={cl.bottom}>
                 {
                     cookie.login
                         ? <Mybutton style={{marginTop: '50px'}} onClick={exit} text={'Выйти'} />
-                        : <div className={cl.bottom}>
+                        : <div>
                             <a href={'/login'}><Mybutton text={'Войти'} /></a>
                             <a href={'/register'}><Mybutton text={'Регистрация'} /></a>
                         </div>
                 }
-
+</div>
         </div>
     );
 };

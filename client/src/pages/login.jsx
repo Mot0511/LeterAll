@@ -7,6 +7,8 @@ import Mybutton from "../components/mybutton/mybutton";
 import initApp from '../hooks/initApp'
 import {useNavigate} from "react-router-dom";
 import {useCookies} from "react-cookie";
+import { isVisible } from '@testing-library/user-event/dist/utils';
+import Loading from '../components/loading/loading'
 
 const Login = () => {
     const app = initApp()
@@ -16,8 +18,10 @@ const Login = () => {
     const [error, setError] = useState('')
     const [cookie, setCookie, removeCookie] = useCookies()
     const nav = useNavigate()
+    const [isVisible, setIsVisible] = useState(false)
 
     const auth = async () => {
+        setIsVisible(true)
         const auth = getAuth()
         const db = getFirestore(app)
         const user = await getDoc(doc(db, 'users', login))
@@ -26,6 +30,7 @@ const Login = () => {
                 signInWithEmailAndPassword(auth, email, password)
                     .then((userCredentail) => {
                         {
+                            setIsVisible(false)
                             setCookie('login', login)
                             nav(`/profile/${login}`)
                         }
@@ -48,10 +53,16 @@ const Login = () => {
                 <h1>Вход</h1>
                 <Myinput value={login} onChange={e => setLogin(e.target.value)} text={'Логин'} />
                 <Myinput value={email} onChange={e => setEmail(e.target.value)} text={'Почта'} />
-                <Myinput value={password} style={{marginTop: '10px'}} type={'password'} onChange={e => setPassword(e.target.value)} text={'Пароль'} />
-                <Mybutton onClick={auth} id={'sign-in-button'} text={'Войти'} />
+                <Myinput value={password} type={'password'} onChange={e => setPassword(e.target.value)} text={'Пароль'} />
+                <Mybutton onClick={auth} id={'sign-in-button'} text={
+                    isVisible
+                        ? <Loading />
+                        : 'Войти'
+                }/>
                 <p style={{color: 'red', textAlign: 'center'}}>{error}</p>
             </div>
+
+            
         </div>
     );
 };

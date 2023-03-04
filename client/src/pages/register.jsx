@@ -28,6 +28,7 @@ const Register = () => {
                 const db = getFirestore(app)
                 setDoc(doc(db, 'users', login), {
                     uid: uid,
+                    login: login,
                     surname: surname,
                     lastname: lastName,
                     email: email,
