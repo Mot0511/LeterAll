@@ -7,6 +7,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import {useCookies} from "react-cookie";
 import Friends from './pages/friends';
+import Chats from "./pages/chats";
 
 const App = () => {
     return (
@@ -24,6 +25,7 @@ const App = () => {
                                 <Route path={'/register'} element={<Register />} />
                                 <Route path={'/profile/:login'} element={<Profile />} />
                                 <Route path={'/friends/:login'} element={<Friends />} />
+                                <Route path={'/chats/:login'} element={<Chats />} />
                             </Routes>
 
                     </div>

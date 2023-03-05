@@ -11,14 +11,14 @@ const Person = ({avatar, lastname, login, surname, status}) => {
                 <p className={cl.name}>{surname} {lastname}</p>
                 <p className={cl.login}>@{login}</p>
             </div>
-            <div className={cl.btns}>
-                {
-                    status
-                        ? <></>
-                        : <Mybutton style={{width: '200px', height: '44px', marginTop: '3px', marginRight: '3px'}} text={'Добавить в друзья'}/>
-                }
-                <Mybutton style={{width: '110px', height: '44px', marginTop: '3px', marginRight: '3px'}} text={'Написать'}/>
-            </div>
+            {/*<div className={cl.btns}>*/}
+            {/*    {*/}
+            {/*        status*/}
+            {/*            ? <></>*/}
+            {/*            : <Mybutton style={{width: '200px', height: '44px', marginTop: '3px', marginRight: '3px'}} text={'Добавить в друзья'}/>*/}
+            {/*    }*/}
+            {/*    <Mybutton style={{width: '110px', height: '44px', marginTop: '3px', marginRight: '3px'}} text={'Написать'}/>*/}
+            {/*</div>*/}
 
         </div></Link>
     );

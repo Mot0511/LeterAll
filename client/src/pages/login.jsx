@@ -4,7 +4,7 @@ import {doc, getDoc, getFirestore} from 'firebase/firestore'
 import cl from './login.module.css'
 import Myinput from "../components/myinput/myinput";
 import Mybutton from "../components/mybutton/mybutton";
-import initApp from '../hooks/initApp'
+import initApp from '../scripts/initApp'
 import {useNavigate} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import { isVisible } from '@testing-library/user-event/dist/utils';

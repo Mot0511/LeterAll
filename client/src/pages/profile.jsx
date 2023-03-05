@@ -3,10 +3,11 @@ import './profile.css'
 import Mybutton from "../components/mybutton/mybutton";
 import {useParams} from "react-router";
 import {doc, getDoc, getFirestore} from "firebase/firestore";
-import initApp from "../hooks/initApp";
+import initApp from "../scripts/initApp";
 import {useCookies} from "react-cookie";
 import {useNavigate, Link} from "react-router-dom";
 import Loading from '../components/loading/loading'
+import addFriend from "../scripts/addFriend";
 
 const Profile = (props) => {
     const app = initApp()
@@ -52,7 +53,7 @@ const Profile = (props) => {
                     }
                     {
                         cookie.login !== login
-                            ? <><Mybutton text={'Добавить в друзья'} />
+                            ? <><Mybutton text={'Добавить в друзья'} onClick={() => addFriend(cookie.login, login, () => console.log('Friends added'))} />
                                 <Mybutton text={'Написать соообщение'} /></>
                             : <><Mybutton text={'Опубликовать фото'} />
                                 <Mybutton text={'Настройка профиля'} /></>

@@ -10,7 +10,7 @@ const Menu = () => {
     const [cookie, setCookie, removeCookie] = useCookies()
     const nav = useNavigate()
     useEffect(() => {
-
+        console.log(cookie);
     }, [])
     const exit = () => {
         const auth = getAuth()
@@ -32,15 +32,15 @@ const Menu = () => {
                     : <Link to={`/login`}><Mybutton text={'Профиль'} /></Link>
             }
 
-            <Mybutton text={'Сообщения'} />
+            <Link to={`/chats/${cookie.login}`}><Mybutton text={'Сообщения'} /></Link>
             <Link to={`/friends/${cookie.login}`}><Mybutton text={'Друзья'} /></Link>
             <div className={cl.bottom}>
                 {
                     cookie.login
                         ? <Mybutton style={{marginTop: '50px'}} onClick={exit} text={'Выйти'} />
                         : <div>
-                            <a href={'/login'}><Mybutton text={'Войти'} /></a>
-                            <a href={'/register'}><Mybutton text={'Регистрация'} /></a>
+                            <Link to={'/login'}><Mybutton text={'Войти'} /></Link>
+                            <Link to={'/register'}><Mybutton text={'Регистрация'} /></Link>
                         </div>
                 }
 </div>

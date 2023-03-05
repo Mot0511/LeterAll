@@ -4,8 +4,11 @@ import Person from "../components/person/person";
 import {useParams} from "react-router";
 
 import avatar from '../img/avatar.png'
-import initApp from "../hooks/initApp";
+import initApp from "../scripts/initApp";
 import {doc, getDoc, getFirestore, getDocs, query, collection, where} from "firebase/firestore";
+import {useCookies} from "react-cookie";
+import {useNavigate} from "react-router-dom";
+import Loading from "../components/loading/loading";
 
 const Friends = () => {
     const app = initApp()
@@ -13,21 +16,37 @@ const Friends = () => {
     const login = useParams().login
 
     const [friends, setFriends] = useState([])
-    const [surnames, setSurnames] = useState([])
-    const [lastnames, setLastnames] = useState([])
     const [info, setInfo] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+
+    const [cookie] = useCookies()
+    const nav = useNavigate()
+
+    useEffect(() => {
+        if (!cookie.login) {
+            nav('/login')
+        }
+    }, [])
 
     useMemo(() => {
+
         const getData = async () => {
             let friends = await getDoc(doc(db, 'users', login))
             friends = friends.data().friends
+            if (!friends.length){
+                setIsLoading(false)
+                return
+            }
             let temp = []
             console.log(1);
             let data = await getDocs(query(collection(db, 'users'), where('login', 'in', friends)))
             data.forEach(doc => {
                 temp.push(doc.data())
             })
+            setIsLoading(false)
             setInfo(temp)
+            setFriends(friends)
+
         }
         getData()
     }, [])
@@ -37,7 +56,12 @@ const Friends = () => {
             <h2>Друзья</h2>
             <div className={cl.list}>
                 {
-                    info.map(el => <Person login={el.login} surname={el.surname} lastname={el.lastname} key={Math.random()} />)
+                    isLoading
+                        ? <Loading />
+                        : friends.length
+                            ? info.map(el => <Person login={el.login} surname={el.surname} lastname={el.lastname} key={Math.random()} />)
+                            : <p>Друзья отсутствуют</p>
+
                 }
             </div>
         </div>

@@ -6,7 +6,7 @@ import cl from './register.module.css'
 import Myinput from "../components/myinput/myinput";
 import Mybutton from "../components/mybutton/mybutton";
 import {useNavigate} from "react-router-dom";
-import initApp from "../hooks/initApp";
+import initApp from "../scripts/initApp";
 import {useCookies} from "react-cookie";
 
 const Register = () => {
